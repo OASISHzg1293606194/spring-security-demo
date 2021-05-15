@@ -7,6 +7,7 @@
     <artifactId>spring-security-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-security-demo</name>
+    <packaging>war</packaging>
     <description>Demo project for Spring Boot</description>
 
     <parent>
