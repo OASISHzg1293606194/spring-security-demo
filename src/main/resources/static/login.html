@@ -57,9 +57,13 @@
     <br>
     <div class="login">
         <form id='loginForm' action="/user/login" method="post">
-            <input class="iptelm" type="text" id="username" placeholder="用户名" name="username"><br>
-            <input class="iptelm" type="password" id="password" placeholder="密   码" name="password"><br>
-            <input class="iptelm" type="button" value="登录" id="doSubmit">
+            <input class="iptelm" type="text" id="username" placeholder="用户名" name="username" /><br />
+            <input class="iptelm" type="password" id="password" placeholder="密   码" name="password" /><br />
+            <div id="remember-me-box">
+                <input type="checkbox" name="remember-me" title="记住密码" />
+                <span>记住密码</span>
+            </div>
+            <input class="iptelm" type="button" value="登录" id="doSubmit" />
         </form>
     </div>
 </body>

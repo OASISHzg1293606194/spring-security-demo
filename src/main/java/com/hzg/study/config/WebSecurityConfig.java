@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 /**
  * @Package: com.hzg.study.config
@@ -28,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private PersistentTokenRepository persistentTokenRepository;
 
 
     @Override
@@ -61,6 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/update").hasRole("manager") // 需要用户为manager的角色
                 .antMatchers("/test/selectAll").hasAnyRole("manager,employee") // 需要用户带有manager或employee任一角色
                 .anyRequest().authenticated() // 其他请求需要认证
+                .and().rememberMe().tokenRepository(persistentTokenRepository) // 记住密码-自动登录
+                .tokenValiditySeconds(60) // 设置有效期，单位s
+                .userDetailsService(userDetailsService)
                 .and().csrf().disable(); // 关闭CSRF防护
 
     }
