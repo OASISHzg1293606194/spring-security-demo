@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * @Package: com.hzg.study.config
@@ -56,19 +57,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html") // 自定义登录页面设置
                 .loginProcessingUrl("/user/login") // 登录的访问地址(由SpringSecurity处理)
                 .defaultSuccessUrl("/test/index") // 登录成功后需要跳转的路径
-                .permitAll() // 指定URL无需保护
-                .and().authorizeRequests()
+                .permitAll(); // 指定URL无需保护
+
+        http.authorizeRequests()
                 .antMatchers("/js/*", "/css/*", "/img/*", "/mainicon/*", "/test/hello", "/user/login", "/40*.html") // 不需要认证的访问路径(包括静态资源)
                 .permitAll()
                 .antMatchers("/test/queryList").hasAuthority("admin") // 需要用户带有admin的权限
                 .antMatchers("/test/queryOne").hasAnyAuthority("admin,role") // 需要用户带有admin或role任一权限
                 .antMatchers("/test/update").hasRole("manager") // 需要用户为manager的角色
                 .antMatchers("/test/selectAll").hasAnyRole("manager,employee") // 需要用户带有manager或employee任一角色
-                .anyRequest().authenticated() // 其他请求需要认证
-                .and().rememberMe().tokenRepository(persistentTokenRepository) // 记住密码-自动登录
+                .anyRequest().authenticated(); // 其他请求需要认证
+
+        // 记住密码-自动登录
+        http.rememberMe()
+                .tokenRepository(persistentTokenRepository)
                 .tokenValiditySeconds(60) // 设置有效期，单位s
-                .userDetailsService(userDetailsService)
-                .and().csrf().disable(); // 关闭CSRF防护
+                .userDetailsService(userDetailsService);
+
+        // 关闭CSRF防护功能
+        // http.csrf().disable();
+
+        // TODO
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
     }
 

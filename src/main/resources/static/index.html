@@ -4,16 +4,6 @@
     <meta charset="UTF-8">
     <title>index</title>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script>
-        $(function () {
-            $("#btn-logout").click(function () {
-                // document.querySelector('#lnk-logout').click(); // 原生dom触发
-                // 或者
-                $("#lnk-logout")[0].click(); // jquery对象转为dom对象再触发
-            });
-        });
-    </script>
-
     <style type="text/css">
         .button {
             cursor: pointer;
@@ -37,9 +27,19 @@
             background: linear-gradient(top, #656565, #4a4a4a);
         }
     </style>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script>
+        $(function () {
+            // 将csrfToken设置到POST表单
+            loadCsrfToken();
+        });
+    </script>
 </head>
 <body>
 <form action="logout" method="post">
+    <input type="hidden" name="_csrf" />
     <button type="submit" id="btn-logout" class="button black">Logout</button>
 </form>
 </body>

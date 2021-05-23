@@ -10,8 +10,12 @@
 
     <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
     <script>
         $(function () {
+            // 将csrfToken设置到POST表单
+            loadCsrfToken();
+
             // 封装form表单提交事件
             var doFormSubmit = function () {
                 // 用户名、密码非空判断
@@ -30,7 +34,7 @@
                 }
                 f.submit();
                 return true;
-            }
+            };
 
             // 登录按钮点击事件
             $("#doSubmit").click(function () {
@@ -57,6 +61,7 @@
     <br>
     <div class="login">
         <form id='loginForm' action="/user/login" method="post">
+            <input type="hidden" name="_csrf" />
             <input class="iptelm" type="text" id="username" placeholder="用户名" name="username" /><br />
             <input class="iptelm" type="password" id="password" placeholder="密   码" name="password" /><br />
             <div id="remember-me-box">
